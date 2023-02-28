@@ -1,0 +1,78 @@
+* {
+  font-family: "Noto Sans", sans-serif;
+}
+
+.background {
+  display: flex;
+  width: 600px;
+  height: 200px;
+  background-color: rgb(32, 32, 32);
+  animation: 1s ease-out 0s 1 slide-in-from-left;
+  filter: drop-shadow(0 8px 0 rgb(48, 189, 66));
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  padding: 10px;
+  animation: 1s ease-out 0s 1 load-on-50;
+}
+
+.music-contents {
+  text-align: left;
+  color: white;
+  width: 50%;
+}
+
+.song-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.artist-names {
+  font-size: 15px;
+}
+
+.album-cover {
+  width: auto;
+  height: 75%;
+  border-radius: 25px;
+}
+
+.progress-bar {
+  margin-top: 7px;
+  background-color: white;
+  height: 6px;
+  border-radius: 100px;
+}
+
+.progress-bar-status {
+  height: 100%;
+  border-radius: 100px;
+  background-color: rgb(48, 189, 66);
+}
+
+/*
+@keyframes slide-in-from-left {
+  0% {
+    width: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes load-on-50 {
+  0% {
+    opacity: 0%;
+  }
+  70% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+*/
