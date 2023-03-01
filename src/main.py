@@ -51,11 +51,13 @@ def currentPlaying():
     with app.app_context():
         while True:
             schedule.every(60).minutes.do(refresh)
-            try:
-                track_info = requests.get(
-                    "https://api.spotify.com/v1/me/player/currently-playing",
-                    headers={"Authorization": f"Bearer {accessToken}"},
-                ).json()
+            track_info = requests.get(
+                "https://api.spotify.com/v1/me/player/currently-playing",
+                headers={"Authorization": f"Bearer {accessToken}"},
+            )
+            status = track_info.status_code
+            if status == 200:
+                track_info = track_info.json()
                 music = track_info["item"]["name"]
                 artists = ", ".join([x["name"] for x in track_info["item"]["artists"]])
                 album_cover = track_info["item"]["album"]["images"][0]["url"]
@@ -70,9 +72,14 @@ def currentPlaying():
                     artist_names=artists,
                     song_name=music,
                 )
-
-            except:
-                pass
+            else:
+                return render_template(
+                    "index.html",
+                    current_percent=50,
+                    album_cover=None,
+                    artist_names="No song detected.",
+                    song_name="Error",
+                )
 
 
 if __name__ == "__main__":
