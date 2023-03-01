@@ -8,13 +8,12 @@ from config import *
 
 app = Flask(__name__)
 
-authBasic = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
-
 
 @app.route("/spotify/callback/code")
 def callback():
     global accessToken, refreshToken
 
+    authBasic = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
     data = requests.post(
         "https://accounts.spotify.com/api/token",
         headers={"Authorization": f"Basic {authBasic}"},
@@ -46,7 +45,7 @@ def refresh():
 @app.route("/song")
 def currentPlaying():
     global accessToken
-    
+
     render_template("index.html")
     with app.app_context():
         while True:
@@ -57,21 +56,26 @@ def currentPlaying():
             )
             status = track_info.status_code
             if status == 200:
-                track_info = track_info.json()
-                music = track_info["item"]["name"]
-                artists = ", ".join([x["name"] for x in track_info["item"]["artists"]])
-                album_cover = track_info["item"]["album"]["images"][0]["url"]
+                try:
+                    track_info = track_info.json()
+                    music = track_info["item"]["name"]
+                    artists = ", ".join(
+                        [x["name"] for x in track_info["item"]["artists"]]
+                    )
+                    album_cover = track_info["item"]["album"]["images"][0]["url"]
 
-                a = track_info["progress_ms"] / track_info["item"]["duration_ms"]
-                current_time = int(a * 100)
+                    a = track_info["progress_ms"] / track_info["item"]["duration_ms"]
+                    current_time = int(a * 100)
 
-                return render_template(
-                    "index.html",
-                    current_percent=current_time,
-                    album_cover=album_cover,
-                    artist_names=artists,
-                    song_name=music,
-                )
+                    return render_template(
+                        "index.html",
+                        current_percent=current_time,
+                        album_cover=album_cover,
+                        artist_names=artists,
+                        song_name=music,
+                    )
+                except:
+                    pass  # if something goes wrong the viewers won't know about it.
             else:
                 return render_template(
                     "index.html",
