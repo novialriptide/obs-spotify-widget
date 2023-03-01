@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import requests
-from turbo_flask import Turbo
 import webbrowser
 import schedule
 import base64
@@ -8,7 +7,6 @@ from config import *
 
 
 app = Flask(__name__)
-turbo = Turbo(app)
 
 authBasic = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
 
