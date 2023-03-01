@@ -47,6 +47,8 @@ def refresh():
 
 @app.route("/song")
 def currentPlaying():
+    global accessToken
+    
     render_template("index.html")
     with app.app_context():
         while True:
