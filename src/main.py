@@ -8,6 +8,8 @@ from config import *
 
 app = Flask(__name__)
 
+accessToken = ""
+refreshToken = ""
 
 @app.route("/spotify/callback/code")
 def callback():
